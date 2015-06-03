@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.Hackintosh.voodooloader" postinstall-action="none" version="1" format-version="2" generator-version="InstallCmds-403 (13E28)" install-location="/" auth="root">
+    <payload numberOfFiles="99" installKBytes="1624"/>
+    <bundle path="./System/Library/Extensions/VoodooHDA.kext" id="org.voodoo.driver.VoodooHDA" CFBundleShortVersionString="2.8.6" CFBundleVersion="2.8.6"/>
+    <bundle path="./System/Library/PreferencePanes/VoodooHDA.prefPane" id="org.voodoo.VoodooHDA" CFBundleShortVersionString="1.2.1" CFBundleVersion="1.2.1"/>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <scripts>
+        <preinstall file="./preinstall"/>
+    </scripts>
+</pkg-info>

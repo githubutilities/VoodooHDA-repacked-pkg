@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>VoodooHDAMAV</title>
+    <pkg-ref id="com.Hackintosh.voodooloader">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="2.8.6" CFBundleVersion="2.8.6" id="org.voodoo.driver.VoodooHDA" path="System/Library/Extensions/VoodooHDA.kext"/>
+            <bundle CFBundleShortVersionString="1.2.1" CFBundleVersion="1.2.1" id="org.voodoo.VoodooHDA" path="System/Library/PreferencePanes/VoodooHDA.prefPane"/>
+        </bundle-version>
+    </pkg-ref>
+    <options customize="never" allow-external-scripts="no"/>
+    
+    <domains enable_anywhere="true"/>
+    
+    <background file="background" alignment="center" scaling="tofit"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="com.Hackintosh.voodooloader"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="com.Hackintosh.voodooloader" visible="false">
+        <pkg-ref id="com.Hackintosh.voodooloader"/>
+    </choice>
+    <pkg-ref id="com.Hackintosh.voodooloader" version="1" onConclusion="none" installKBytes="1624">#VoodooHDAMAV.pkg</pkg-ref>
+</installer-gui-script>

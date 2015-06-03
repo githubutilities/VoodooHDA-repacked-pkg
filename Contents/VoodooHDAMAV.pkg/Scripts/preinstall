@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# $1: the full path to the installation package; for example:
+# /Volumes/Projects/Testing/Simple_Carbon_App.pkg
+#
+# $2: the full path to the installation destination; for example:
+# /Applications
+#
+# $3: the mountpoint of the destination volume; for example:
+# / or /Volumes/External_Drive
+# 
+# $4: the root directory for the current System folder:
+# /
+
+echo "postinstall: Path to installer....... $1"
+echo "postinstall: Path to destination..... $2"
+echo "postinstall: Path to dest volume..... $3"
+echo "postinstall: Root of system folder... $4"
+
+#############################################
+############### Start script ################
+#############################################
+
+### Backup for AppleHDA.kext ###
+
+date=`date -j +%F-%Hh%M`
+
+for i in AppleHDA AzaliaAudio AppleAzaliaAudio ALCinject HDAEnabler VoodooHDA; do
+
+	if [ -e "${3}"/System/Library/Extensions/$i.kext ]; then
+		if [ -n "${3}"/Backup\ Extensions/$date ]; then
+			echo "creating Backup Directory..."
+			mkdir -p "${3}"/Backup\ Extensions/$date
+		fi
+		cp -R "${3}"/System/Library/Extensions/$i.kext "${3}"/Backup\ Extensions/$date
+		if [ $i != "VoodooHDA" ]; then
+			kextunload "${3}"/System/Library/Extensions/$i.kext
+		fi
+		rm -R "${3}"/System/Library/Extensions/$i.kext
+	fi
+
+	if [ -e "${3}"/Extra/Extensions/$i.kext ]; then
+		if [ -n "${3}"/Backup\ Extensions/$date ]; then
+				echo "creating Backup Directory..."
+				mkdir -p "${3}"/Backup\ Extensions/$date
+		fi
+		cp -R "${3}"/Extra/Extensions/$i.kext "${3}"/Backup\ Extensions/$date
+		rm -R "${3}"/Extra/Extensions/$i.kext
+	fi
+
+done
+
+### Install for VoodooHDA.kext ###
+
+if [ -d "$3/System/Library/Extensions/VoodooHDA.kext" ];then
+	rm -rf "$3/System/Library/Extensions/VoodooHDA.kext"
+fi
+if [ -d "$3/System/Library/PreferencePanes/VoodooHDA.prefPane" ];then
+	rm -rf "$3/System/Library/PreferencePanes/VoodooHDA.prefPane"
+fi
+
+#############################################
+############### Finish script ###############
+#############################################
+
+exit 0
