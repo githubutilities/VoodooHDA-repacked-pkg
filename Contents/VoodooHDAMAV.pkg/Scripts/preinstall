@@ -23,29 +23,33 @@ echo "postinstall: Root of system folder... $4"
 
 ### Backup for AppleHDA.kext ###
 
-date=`date -j +%F-%Hh%M`
+DATE=`date -j +%F-%Hh%M`
+
+BACKUP_DIRECTORY="${3}"/Backup\ Extensions/org.voodoo.driver.VoodooHDA/$DATE
+SYSTEM_EXTENSION_DIRECTORY="${3}"/System/Library/Extensions
+EXTRA_EXTENSION_DIRECTORY="${3}"/Extra/Extensions
 
 for i in AppleHDA AzaliaAudio AppleAzaliaAudio ALCinject HDAEnabler VoodooHDA; do
 
-	if [ -e "${3}"/System/Library/Extensions/$i.kext ]; then
-		if [ -n "${3}"/Backup\ Extensions/$date ]; then
+	if [ -e "${SYSTEM_EXTENSION_DIRECTORY}"/$i.kext ]; then
+		if [ -n "${BACKUP_DIRECTORY}" ]; then
 			echo "creating Backup Directory..."
-			mkdir -p "${3}"/Backup\ Extensions/$date
+			mkdir -p "${BACKUP_DIRECTORY}"
 		fi
-		cp -R "${3}"/System/Library/Extensions/$i.kext "${3}"/Backup\ Extensions/$date
+		cp -R "${SYSTEM_EXTENSION_DIRECTORY}"/$i.kext "${BACKUP_DIRECTORY}"
 		if [ $i != "VoodooHDA" ]; then
-			kextunload "${3}"/System/Library/Extensions/$i.kext
+			kextunload "${SYSTEM_EXTENSION_DIRECTORY}"/$i.kext
 		fi
-		rm -R "${3}"/System/Library/Extensions/$i.kext
+		rm -R "${SYSTEM_EXTENSION_DIRECTORY}"/$i.kext
 	fi
 
-	if [ -e "${3}"/Extra/Extensions/$i.kext ]; then
-		if [ -n "${3}"/Backup\ Extensions/$date ]; then
+	if [ -e "${EXTRA_EXTENSION_DIRECTORY}"/$i.kext ]; then
+		if [ -n "${BACKUP_DIRECTORY}" ]; then
 				echo "creating Backup Directory..."
-				mkdir -p "${3}"/Backup\ Extensions/$date
+				mkdir -p "${BACKUP_DIRECTORY}"
 		fi
-		cp -R "${3}"/Extra/Extensions/$i.kext "${3}"/Backup\ Extensions/$date
-		rm -R "${3}"/Extra/Extensions/$i.kext
+		cp -R "${EXTRA_EXTENSION_DIRECTORY}"/$i.kext "${BACKUP_DIRECTORY}"
+		rm -R "${EXTRA_EXTENSION_DIRECTORY}"/$i.kext
 	fi
 
 done
